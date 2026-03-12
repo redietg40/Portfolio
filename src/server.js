@@ -210,12 +210,17 @@ app.delete('/api/admin/projects/:id', async (req,res)=>{
     }
 });
 
-app.listen(port,()=>{
-    console.log(`Portfolio Server is listening on port ${port}`);
-});
+if (require.main === module) {
+    app.listen(port, () => {
+        console.log(`Portfolio Server is listening on port ${port}`);
+    });
+}
+
+module.exports = app;
 
 // Graceful shutdown
 process.on('beforeExit', async () => {
     await prisma.$disconnect();
     await pool.end();
+
 });                     
